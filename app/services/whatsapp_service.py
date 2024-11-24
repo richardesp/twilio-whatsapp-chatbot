@@ -17,8 +17,7 @@ def process_message(from_number, body):
     else:
         response_message = "Lo siento, no entendí tu mensaje. Puedes decir 'Hola' para ver nuestros servicios."
 
-    send_message(TWILIO_WHATSAPP_NUMBER, response_message, from_number)
+    response_message = client.messages.create(from_=TWILIO_WHATSAPP_NUMBER, body=response_message, to=from_number)
+
     return response_message
 
-def send_message(from_, body, to):
-    client.messages.create(from_=from_, body=body, to=to)
