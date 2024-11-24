@@ -1,5 +1,4 @@
 from twilio.rest import Client
-import os
 from config import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_WHATSAPP_NUMBER
 from utils.logger import get_logger
 
