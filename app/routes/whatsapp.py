@@ -12,5 +12,5 @@ async def whatsapp_webhook(request: Request):
     
     logger.info(f'Incoming message received: {incoming_msg}')
     
-    response_message = process_message(incoming_msg['From'], incoming_msg['Body'])
+    process_message(incoming_msg['From'], incoming_msg['Body'])
     return {"message": "Response sent successfully"}

@@ -7,7 +7,7 @@ client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
 logger = get_logger(__name__)
 
-def process_message(from_number, body):
+def process_message(from_number, body) -> None:
     body = body.strip().lower()
     
     logger.info(f'Body retrieved: {body}')
@@ -19,5 +19,5 @@ def process_message(from_number, body):
 
     response_message = client.messages.create(from_=TWILIO_WHATSAPP_NUMBER, body=response_message, to=from_number)
 
-    return response_message
+    logger.info(f'Response message generated: {response_message.body}')
 
