@@ -11,6 +11,7 @@ services:
       - ./env/.env # Adjust path to match directory structure
     environment:
       - UVICORN_ENV=PRODUCTION
-      - LOG_LEVEL=DEBUG
-    command: uvicorn main:app --host 0.0.0.0 --port 8000
+      - LOG_LEVEL=INFO
+      - LOG_PATH=logs/app.log
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
     restart: always

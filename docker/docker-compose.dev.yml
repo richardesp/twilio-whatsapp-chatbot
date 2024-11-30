@@ -8,10 +8,11 @@ services:
     ports:
       - "8000:8000" # Expose FastAPI app
     volumes:
-      - ../app:/app # Mount the app folder directly to /app in the container
+      - ../app:/usr/src/app # Mount the app folder directly to /app in the container
     env_file:
       - ./env/.env
     environment:
       - UVICORN_ENV=DEVELOPMENT # Environment variable for development
       - LOG_LEVEL=DEBUG
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+      - LOG_PATH=logs/app.log
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload

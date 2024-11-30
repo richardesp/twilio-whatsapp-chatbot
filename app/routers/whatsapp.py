@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Request
-from services.whatsapp_service import process_message
-from utils.logger import get_logger
+from app.services.whatsapp_service import process_message
+from app.utils.logger import create_logger
 
-logger = get_logger(__name__)
+logger = create_logger(__name__)
 
 router = APIRouter()
 

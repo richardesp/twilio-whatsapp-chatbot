@@ -28,17 +28,17 @@ RUN pip install --no-cache-dir --prefix=/install -r requirements.${ENV}.txt
 # Use the same specific minor version of the Python slim image for runtime
 FROM python:3.12.1-slim
 
-# Set the working directory in the runtime stage
-WORKDIR /app
+# Set the working directory in the runtime stage (docker recommended path)
+WORKDIR /usr/src
 
 # Copy installed Python dependencies from the builder stage
 COPY --from=builder /install /usr/local
 
 # Copy the application code
-COPY ./app /app
+COPY ./app /usr/src/app
 
 # Expose the port the application will run on
 EXPOSE 8000
 
 # Command to start the application
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
