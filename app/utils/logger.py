@@ -1,24 +1,32 @@
 import logging
-from config import LOG_LEVEL
+from app.config import LOG_LEVEL, LOG_PATH 
+from logging.handlers import RotatingFileHandler
+from pathlib import Path
 
-def get_logger(name: str) -> logging.Logger:
+def create_logger(name: str) -> logging.Logger:
 
-    # Converting numeric level logger
-    numeric_level = getattr(logging, LOG_LEVEL, logging.INFO)
+    log_file_path = Path(LOG_PATH)
+    log_file_path.parent.mkdir(parents=True, exist_ok=True)
 
-    # Logger configuration
+    # Create a logger
     logger = logging.getLogger(name)
-    logger.setLevel(numeric_level)
+    logger.setLevel(getattr(logging, LOG_LEVEL))
 
-    # Handler to STDOUT
-    ch = logging.StreamHandler()
-    ch.setLevel(numeric_level)
+    # Create a file handler    
+    file_handler = RotatingFileHandler(log_file_path, maxBytes=1024*1024*10, backupCount=10)
+    file_handler.setLevel(getattr(logging, LOG_LEVEL))
 
-    # Log format
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    ch.setFormatter(formatter)
+    # Create a console handler
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(getattr(logging, LOG_LEVEL))
 
-    # Add the handler
-    logger.addHandler(ch)
+    # Create a formatter and attach it to the handlers
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    file_handler.setFormatter(formatter)
+    console_handler.setFormatter(formatter)
+
+    # Add the handlers to the logger
+    logger.addHandler(file_handler)
+    logger.addHandler(console_handler)
 
     return logger
