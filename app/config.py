@@ -7,4 +7,6 @@ load_dotenv(dotenv_path=dotenv_path)
 TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
 TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
 TWILIO_WHATSAPP_NUMBER = os.getenv("TWILIO_WHATSAPP_NUMBER")
+TWILIO_TEMPLATE_CONTENT_SID = os.getenv("TWILIO_TEMPLATE_CONTENT_SID")
+
 LOG_LEVEL = os.getenv('LOG_LEVEL', 'info').upper()
