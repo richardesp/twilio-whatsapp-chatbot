@@ -1,15 +1,16 @@
 services:
   app:
     build:
-      context: ..  # Build context points to the parent directory
+      context: .. # Build context points to the parent directory
       dockerfile: docker/Dockerfile
       args:
-        ENV: prod  # Use production requirements
+        ENV: prod # Use production requirements
     ports:
-      - "8000:8000"  # Expose FastAPI app
+      - "8000:8000" # Expose FastAPI app
     env_file:
-      - ./env/.env  # Adjust path to match directory structure
+      - ./env/.env # Adjust path to match directory structure
     environment:
-      - APP_ENV=production
-      - DEBUG=false  # Disable debug mode in production for security
+      - UVICORN_ENV=PRODUCTION
+      - LOG_LEVEL=DEBUG
     command: uvicorn main:app --host 0.0.0.0 --port 8000
+    restart: always
