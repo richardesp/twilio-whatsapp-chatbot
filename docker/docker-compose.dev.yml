@@ -1,0 +1,17 @@
+services:
+  app:
+    build:
+      context: .. # Build context points to the parent directory
+      dockerfile: docker/Dockerfile
+      args:
+        ENV: dev # Use development requirements
+    ports:
+      - "8000:8000" # Expose FastAPI app
+    volumes:
+      - ../app:/app # Mount the app folder directly to /app in the container
+    env_file:
+      - ./env/.env
+    environment:
+      - APP_ENV=development # Environment variable for development
+      - DEBUG=true # Enable debugging mode
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
