@@ -5,4 +5,5 @@ TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
 TWILIO_WHATSAPP_NUMBER = os.getenv("TWILIO_WHATSAPP_NUMBER")
 TWILIO_TEMPLATE_CONTENT_SID = os.getenv("TWILIO_TEMPLATE_CONTENT_SID")
 
-LOG_LEVEL = os.getenv('LOG_LEVEL', 'info').upper()
+LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')
+LOG_PATH = os.getenv('LOG_PATH', 'logs/app.log')
