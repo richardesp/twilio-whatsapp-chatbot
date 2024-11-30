@@ -1,7 +1,6 @@
 from fastapi import FastAPI
-from dotenv import load_dotenv
 import uvicorn.config
-from routes.whatsapp import router as whatsapp_router
+from routers.whatsapp import router as whatsapp_router
 
 # Initialize FastAPI
 app = FastAPI()
