@@ -56,6 +56,7 @@ async def whatsapp_webhook(
         request (Request): The HTTP request object, used for logging metadata like headers.
         message (WhatsAppMessage): The validated WhatsApp message payload.
         process_message (Callable): The message processing service dependency.
+        twilio_client (TwilioClient): Twilio's client for processing all whatsapp messages.
 
     Returns:
         dict: A success message indicating the message was processed.
