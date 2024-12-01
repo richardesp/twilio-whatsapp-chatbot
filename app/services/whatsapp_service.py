@@ -1,6 +1,7 @@
 import json
 
 from twilio.rest import Client
+from twilio.rest import Client as TwilioClient
 
 from app.config import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_TEMPLATE_CONTENT_SID
 from app.utils.logger import create_logger
@@ -33,9 +34,12 @@ def send_list_picker(from_number: PhoneNumber, to_number: PhoneNumber):
     except Exception as e:
         logger.error(f"Error trying to send the list picker (check twilio CLI): {e}")
 
-def process_message(from_number: PhoneNumber, body: str, to_number: PhoneNumber) -> None:
+
+def process_message(twilio_client: TwilioClient, from_number: PhoneNumber, body: str, to_number: PhoneNumber) -> None:
     body = body.strip().lower()
     logger.info(f'Body retrieved: {body}')
+    
+    
     
     if "hola" in body or "buenas" in body:
         logger.info(f"Mensaje reconocido como saludo. Enviando list picker.")

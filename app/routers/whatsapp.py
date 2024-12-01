@@ -1,9 +1,12 @@
 import json
-from fastapi import APIRouter, Depends, HTTPException, Request, status
-from fastapi.responses import JSONResponse
 from typing import Callable
+
+from fastapi import APIRouter, Depends, HTTPException, Request, status
+from twilio.rest import Client as TwilioClient
+
 from app.schemas.whatsapp_message import WhatsAppMessage
 from app.utils.logger import create_logger
+from app.dependencies import get_twilio_client
 
 logger = create_logger(__name__)
 router = APIRouter()
@@ -41,6 +44,7 @@ async def whatsapp_webhook(
     request: Request,
     message: WhatsAppMessage = Depends(WhatsAppMessage.as_form),
     process_message: Callable = Depends(get_message_processor),
+    twilio_client: TwilioClient = Depends(get_twilio_client)
 ):
     """
     Handles incoming WhatsApp webhook messages.
@@ -77,6 +81,7 @@ async def whatsapp_webhook(
 
         # Process the message using the injected function
         process_message(
+            twilio_client=twilio_client,
             from_number=message.From,
             body=message.Body,
             to_number=message.To
