@@ -9,6 +9,7 @@ services:
       - "8000:8000" # Expose FastAPI app
     volumes:
       - ../app:/usr/src/app # Mount the app folder directly to /app in the container
+      - ../tests:/usr/src/tests
     env_file:
       - ./env/.env
     environment:
