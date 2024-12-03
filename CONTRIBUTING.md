@@ -1,6 +1,6 @@
-# Contributing to [Project Name]
+# Contributing to twilio-whatsapp-chatbot
 
-Thank you for considering contributing to [Project Name]! This guide outlines the process for contributing to ensure a smooth and efficient collaboration.
+Thank you for considering contributing to twilio-whatsapp-chatbot! This guide outlines the process for contributing to ensure a smooth and efficient collaboration.
 
 ## Table of Contents
 1. [Branching Strategy](#branching-strategy)
@@ -48,7 +48,7 @@ We use [Conventional Commits](https://www.conventionalcommits.org/) to maintain 
 ### 1. **Setting Up**
 - Clone the repository:
   ```bash
-  git clone https://github.com/your-repo/project-name.git
+  git clone https://github.com/your-repo/twilio-whatsapp-chatbot.git
   cd project-name
   ```
 - Create a new branch for your task:
