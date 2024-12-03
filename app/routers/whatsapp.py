@@ -3,10 +3,11 @@ from typing import Callable
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from twilio.rest import Client as TwilioClient
+from redis import Redis as RedisClient
 
 from app.schemas.whatsapp_message import WhatsAppMessage
 from app.utils.logger import create_logger
-from app.dependencies import get_twilio_client
+from app.dependencies import get_twilio_client, get_redis_client
 
 logger = create_logger(__name__)
 router = APIRouter()
@@ -41,10 +42,10 @@ def get_message_processor() -> Callable:
     },
 )
 async def whatsapp_webhook(
-    request: Request,
     message: WhatsAppMessage = Depends(WhatsAppMessage.as_form),
     process_message: Callable = Depends(get_message_processor),
-    twilio_client: TwilioClient = Depends(get_twilio_client)
+    twilio_client: TwilioClient = Depends(get_twilio_client),
+    redis_client: RedisClient = Depends(get_redis_client)
 ):
     """
     Handles incoming WhatsApp webhook messages.
@@ -75,14 +76,14 @@ async def whatsapp_webhook(
                 "from": message.From,
                 "to": message.To,
                 "body": message.Body,
-                "message_sid": message.MessageSid,
-                "request_id": request.headers.get("X-Request-ID", "unknown"),
+                "message_sid": message.MessageSid
             })
         )
 
         # Process the message using the injected function
         process_message(
             twilio_client=twilio_client,
+            redis_client=redis_client,
             from_number=message.From,
             body=message.Body,
             to_number=message.To
