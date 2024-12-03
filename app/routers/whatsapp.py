@@ -4,10 +4,11 @@ from typing import Callable
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from twilio.rest import Client as TwilioClient
 from redis import Redis as RedisClient
+from openai import OpenAI as OpenAIClient
 
 from app.schemas.whatsapp_message import WhatsAppMessage
 from app.utils.logger import create_logger
-from app.dependencies import get_twilio_client, get_redis_client
+from app.dependencies import get_twilio_client, get_redis_client, get_openai_client
 
 logger = create_logger(__name__)
 router = APIRouter()
@@ -45,7 +46,8 @@ async def whatsapp_webhook(
     message: WhatsAppMessage = Depends(WhatsAppMessage.as_form),
     process_message: Callable = Depends(get_message_processor),
     twilio_client: TwilioClient = Depends(get_twilio_client),
-    redis_client: RedisClient = Depends(get_redis_client)
+    redis_client: RedisClient = Depends(get_redis_client),
+    openai_client: OpenAIClient = Depends(get_openai_client)
 ):
     """
     Handles incoming WhatsApp webhook messages.
@@ -84,6 +86,7 @@ async def whatsapp_webhook(
         process_message(
             twilio_client=twilio_client,
             redis_client=redis_client,
+            openai_client=openai_client,
             from_number=message.From,
             body=message.Body,
             to_number=message.To

@@ -1,11 +1,14 @@
 from twilio.rest import Client as TwilioClient
 import redis
 from redis import Redis as RedisClient
+from openai import OpenAI as OpenAIClient
+import openai
 
 from app.config import (TWILIO_ACCOUNT_SID, 
                         TWILIO_AUTH_TOKEN, 
                         REDIS_HOSTNAME, 
-                        REDIS_PORT)
+                        REDIS_PORT,
+                        OPENAI_APIKEY)
 
 
 def get_twilio_client() -> TwilioClient:
@@ -29,3 +32,12 @@ def get_redis_client() -> RedisClient:
         port=REDIS_PORT,
         decode_responses=True
     )
+    
+def get_openai_client() -> OpenAIClient:
+    """
+    Dependency to provide an openai client instance.
+    
+    Return:
+        OpenAIClient: An openai client configured with the application's credential.
+    """
+    return openai.OpenAI(api_key = OPENAI_APIKEY)
