@@ -1,12 +1,12 @@
-name: Pre-commit Checks
+name: Code Quality Checks
 
 on:
   push:
   pull_request:
 
 jobs:
-  pre-commit:
-    name: Run Pre-commit Hooks
+  code_quality:
+    name: Run Linting & Type Checking
     runs-on: ubuntu-latest
 
     steps:
@@ -16,17 +16,20 @@ jobs:
       - name: 🐍 Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.12.1"
+          python-version: "3.12"
 
-      - name: 📦 Install Dependencies (without uv)
+      - name: 📦 Install Dependencies
         run: |
           python -m venv venv
           source venv/bin/activate
           pip install --upgrade pip
           pip install -r requirements.dev.txt
 
-      - name: 🔄 Install pre-commit
-        run: pip install pre-commit
+      - name: 🎨 Run Black (Code Formatting)
+        run: black --check .
 
-      - name: 🧹 Run Pre-commit Hooks
-        run: pre-commit run --all-files --show-diff-on-failure --color=always
+      - name: 🔍 Run Ruff (Linting & Fixes)
+        run: ruff check .
+
+      - name: 🔬 Run Mypy (Type Checking)
+        run: mypy --ignore-missing-imports .
