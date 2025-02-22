@@ -1,3 +1,7 @@
 -r requirements.prod.txt
 pytest
 httpx
+black
+ruff
+pre-commit
+mypy
