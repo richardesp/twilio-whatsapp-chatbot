@@ -16,7 +16,7 @@ jobs:
       - name: 🐍 Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.12"
+          python-version: "3.12.1"
 
       - name: 📦 Install Dependencies
         run: |
@@ -26,10 +26,16 @@ jobs:
           pip install -r requirements.dev.txt
 
       - name: 🎨 Run Black (Code Formatting)
-        run: black --check .
+        run: |
+          source venv/bin/activate
+          black --check .
 
       - name: 🔍 Run Ruff (Linting & Fixes)
-        run: ruff check .
+        run: |
+          source venv/bin/activate
+          ruff check .
 
       - name: 🔬 Run Mypy (Type Checking)
-        run: mypy --ignore-missing-imports .
+        run: |
+          source venv/bin/activate
+          mypy --ignore-missing-imports .
