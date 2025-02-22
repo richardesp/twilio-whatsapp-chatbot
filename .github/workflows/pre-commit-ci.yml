@@ -1,0 +1,30 @@
+name: Pre-commit Checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  pre-commit:
+    name: Run pre-commit hooks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12.1"
+
+      - name: Install uv (fast package manager)
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          uv pip install pre-commit
+
+      - name: Install Dependencies
+        run: uv pip install -r requirements.dev.txt
+
+      - name: Run pre-commit
+        run: pre-commit run --all-files --show-diff-on-failure --color=always
