@@ -5,3 +5,4 @@ black
 ruff
 pre-commit
 mypy
+pydantic[mypy]
