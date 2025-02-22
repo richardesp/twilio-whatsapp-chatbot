@@ -16,20 +16,17 @@ jobs:
       - name: 🐍 Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.12"
+          python-version: "3.12.1"
 
-      - name: 🚀 Install uv
+      - name: 📦 Install Dependencies (without uv)
         run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-
-      - name: 🔧 Create Virtual Environment with uv
-        run: uv venv
-
-      - name: 📦 Install Dependencies
-        run: uv pip install -r requirements.dev.txt
+          python -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.dev.txt
 
       - name: 🔄 Install pre-commit
-        run: uv pip install pre-commit
+        run: pip install pre-commit
 
-      - name: 🧹 Run Pre-commit Hooks (without uv run)
+      - name: 🧹 Run Pre-commit Hooks
         run: pre-commit run --all-files --show-diff-on-failure --color=always
