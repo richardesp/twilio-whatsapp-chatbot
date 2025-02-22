@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 
 class WhatsAppMessage(BaseModel):
     SmsMessageSid: str = Field(
-        ..., description="Unique identifier for the SMS message."
+        default=..., description="Unique identifier for the SMS message."
     )
     NumMedia: int = Field(default=..., description="Number of media attachments.")
     ProfileName: Optional[str] = Field(None, description="Profile name of the sender.")
@@ -24,7 +24,7 @@ class WhatsAppMessage(BaseModel):
     )
     NumSegments: int = Field(default=..., description="Number of segments in the SMS.")
     ReferralNumMedia: int = Field(
-        ..., description="Number of referral media attachments."
+        default=..., description="Number of referral media attachments."
     )
     MessageSid: str = Field(
         default=..., description="Unique identifier for the message."
