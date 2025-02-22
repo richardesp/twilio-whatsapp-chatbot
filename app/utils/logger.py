@@ -1,7 +1,8 @@
 import logging
-from app.config import LOG_LEVEL, LOG_PATH 
+from app.config import LOG_LEVEL, LOG_PATH
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
+
 
 def create_logger(name: str) -> logging.Logger:
 
@@ -12,8 +13,10 @@ def create_logger(name: str) -> logging.Logger:
     logger = logging.getLogger(name)
     logger.setLevel(getattr(logging, LOG_LEVEL))
 
-    # Create a file handler    
-    file_handler = RotatingFileHandler(log_file_path, maxBytes=1024*1024*10, backupCount=10)
+    # Create a file handler
+    file_handler = RotatingFileHandler(
+        log_file_path, maxBytes=1024 * 1024 * 10, backupCount=10
+    )
     file_handler.setLevel(getattr(logging, LOG_LEVEL))
 
     # Create a console handler
@@ -21,7 +24,9 @@ def create_logger(name: str) -> logging.Logger:
     console_handler.setLevel(getattr(logging, LOG_LEVEL))
 
     # Create a formatter and attach it to the handlers
-    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    formatter = logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
     file_handler.setFormatter(formatter)
     console_handler.setFormatter(formatter)
 

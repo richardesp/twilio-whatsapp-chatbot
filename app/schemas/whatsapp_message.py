@@ -5,7 +5,9 @@ from pydantic import BaseModel, Field
 
 
 class WhatsAppMessage(BaseModel):
-    SmsMessageSid: str = Field(..., description="Unique identifier for the SMS message.")
+    SmsMessageSid: str = Field(
+        ..., description="Unique identifier for the SMS message."
+    )
     NumMedia: int = Field(..., description="Number of media attachments.")
     ProfileName: Optional[str] = Field(None, description="Profile name of the sender.")
     MessageType: str = Field(..., description="Type of the message (e.g., text).")
@@ -15,7 +17,9 @@ class WhatsAppMessage(BaseModel):
     Body: str = Field(..., description="Body of the message.")
     To: str = Field(..., description="Recipient's phone number in WhatsApp format.")
     NumSegments: int = Field(..., description="Number of segments in the SMS.")
-    ReferralNumMedia: int = Field(..., description="Number of referral media attachments.")
+    ReferralNumMedia: int = Field(
+        ..., description="Number of referral media attachments."
+    )
     MessageSid: str = Field(..., description="Unique identifier for the message.")
     AccountSid: str = Field(..., description="Account SID associated with the message.")
     From: str = Field(..., description="Sender's phone number in WhatsApp format.")
@@ -38,7 +42,7 @@ class WhatsAppMessage(BaseModel):
         MessageSid: str = Form(...),
         AccountSid: str = Form(...),
         From: str = Form(...),
-        ApiVersion: str = Form(...)
+        ApiVersion: str = Form(...),
     ):
         """
         A helper method to parse form-encoded data into the model.

@@ -1,7 +1,7 @@
 import json
 from typing import Callable
 
-from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from twilio.rest import Client as TwilioClient
 from redis import Redis as RedisClient
 from openai import OpenAI as OpenAIClient
@@ -17,11 +17,12 @@ router = APIRouter()
 def get_message_processor() -> Callable:
     """
     Provides the message processing function.
-    
+
     Returns:
         Callable: The message processing function.
     """
     from app.services.whatsapp_service import process_message
+
     return process_message
 
 
@@ -37,7 +38,11 @@ def get_message_processor() -> Callable:
     responses={
         200: {
             "description": "Message processed successfully.",
-            "content": {"application/json": {"example": {"message": "Response sent successfully"}}},
+            "content": {
+                "application/json": {
+                    "example": {"message": "Response sent successfully"}
+                }
+            },
         },
         500: {"description": "Server error during processing."},
     },
@@ -47,7 +52,7 @@ async def whatsapp_webhook(
     process_message: Callable = Depends(get_message_processor),
     twilio_client: TwilioClient = Depends(get_twilio_client),
     redis_client: RedisClient = Depends(get_redis_client),
-    openai_client: OpenAIClient = Depends(get_openai_client)
+    openai_client: OpenAIClient = Depends(get_openai_client),
 ):
     """
     Handles incoming WhatsApp webhook messages.
@@ -63,23 +68,25 @@ async def whatsapp_webhook(
 
     Returns:
         dict: A success message indicating the message was processed.
-    
+
     Raises:
         HTTPException: If an error occurs during message processing.
-        
+
     Author:
         Ricardo Espantaleón Pérez (@richardesp)
     """
     try:
         # Log the incoming message with structured logging
         logger.info(
-            json.dumps({
-                "event": "incoming_whatsapp_message",
-                "from": message.From,
-                "to": message.To,
-                "body": message.Body,
-                "message_sid": message.MessageSid
-            })
+            json.dumps(
+                {
+                    "event": "incoming_whatsapp_message",
+                    "from": message.From,
+                    "to": message.To,
+                    "body": message.Body,
+                    "message_sid": message.MessageSid,
+                }
+            )
         )
 
         # Process the message using the injected function
@@ -89,7 +96,7 @@ async def whatsapp_webhook(
             openai_client=openai_client,
             from_number=message.From,
             body=message.Body,
-            to_number=message.To
+            to_number=message.To,
         )
 
     except Exception as e:

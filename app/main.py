@@ -11,4 +11,5 @@ app.include_router(whatsapp_router)
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app)

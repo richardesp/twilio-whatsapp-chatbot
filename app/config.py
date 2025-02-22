@@ -10,5 +10,5 @@ REDIS_PORT = os.getenv("REDIS_PORT")
 
 OPENAI_APIKEY = os.getenv("OPENAI_APIKEY")
 
-LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')
-LOG_PATH = os.getenv('LOG_PATH', 'logs/app.log')
+LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+LOG_PATH = os.getenv("LOG_PATH", "logs/app.log")
