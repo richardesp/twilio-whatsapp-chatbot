@@ -4,7 +4,7 @@ import re
 
 class PhoneNumber(BaseModel):
     phone: str = Field(
-        ...,
+        default=...,
         description="A valid WhatsApp phone number in the format 'whatsapp:+12345678912'.",
     )
 

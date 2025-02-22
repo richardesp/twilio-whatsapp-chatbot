@@ -46,7 +46,9 @@ class ServiceSelector(BaseModel):
         description="Button text to list services (maximum 20 characters).",
         example="List services",
     )
-    services: list[Service] = Field(..., description="List of services offered.")
+    services: list[Service] = Field(
+        default=..., description="List of services offered."
+    )
 
 
 class Business(BaseModel):
