@@ -1,6 +1,3 @@
-Aquí tienes un **README.md** actualizado con la información específica de los endpoints y las variables de entorno que usas:
-
-```md
 # Twilio WhatsApp Chatbot
 
 Twilio WhatsApp Chatbot is a FastAPI-based service designed to interact with users via WhatsApp using the Twilio API. This chatbot processes incoming WhatsApp messages, integrates with OpenAI for responses, and caches data using Redis.
@@ -210,4 +207,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## **Questions and Support**  
 For any questions, open an issue or contact the maintainers:  
 - GitHub: [@richardesp](https://github.com/richardesp)
-```
