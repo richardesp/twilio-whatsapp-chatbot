@@ -6,7 +6,7 @@ from twilio.rest import Client as TwilioClient
 from app.config import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_TEMPLATE_CONTENT_SID
 from app.utils.logger import create_logger
 from app.schemas.phone_number import PhoneNumber
-
+from app.templates.whatsapp_templates import GREETINGS, DEFAULT_RESPONSE, LIST_PICKER_CONTENT_VARIABLES
 
 client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 logger = create_logger(__name__)
@@ -15,13 +15,8 @@ def send_list_picker(from_number: PhoneNumber, to_number: PhoneNumber):
     try:
         content_sid = TWILIO_TEMPLATE_CONTENT_SID
         
-        content_variables = {
-            '1': 'a',
-            '2': 'b',
-            '3': 'c',
-            '4': 'd',
-            '5': 'e'
-        }
+        # Se utilizan las variables externas para el contenido
+        content_variables = LIST_PICKER_CONTENT_VARIABLES
 
         message = client.messages.create(
             to=to_number,
@@ -39,20 +34,17 @@ def process_message(twilio_client: TwilioClient, from_number: PhoneNumber, body:
     body = body.strip().lower()
     logger.info(f'Body retrieved: {body}')
     
-    
-    
-    if "hola" in body or "buenas" in body:
-        logger.info(f"Mensaje reconocido como saludo. Enviando list picker.")
+    # Se verifica si alguno de los saludos de la plantilla se encuentra en el mensaje recibido
+    if any(greeting in body for greeting in GREETINGS):
+        logger.info("Mensaje reconocido como saludo. Enviando list picker.")
         send_list_picker(from_number=to_number, to_number=from_number)  # Enviar el mensaje interactivo con el list picker
     else:
-        # Mensaje genérico si no se reconoce el saludo
-        response_message = "Lo siento, no entendí tu mensaje. Puedes decir 'Hola' para ver nuestros servicios."
         try:
             message = client.messages.create(
                 from_=to_number,
-                body=response_message,
+                body=DEFAULT_RESPONSE,
                 to=from_number
             )
-            logger.info(f'Response message generated: {message.body}')
+            logger.info(f"Response message generated: {message.body}")
         except Exception as e:
             logger.error(f"Error al enviar el mensaje: {e}")
