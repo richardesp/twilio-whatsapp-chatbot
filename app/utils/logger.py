@@ -5,7 +5,6 @@ from pathlib import Path
 
 
 def create_logger(name: str) -> logging.Logger:
-
     log_file_path = Path(LOG_PATH)
     log_file_path.parent.mkdir(parents=True, exist_ok=True)
 
