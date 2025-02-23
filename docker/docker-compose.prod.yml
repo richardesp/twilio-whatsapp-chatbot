@@ -1,0 +1,26 @@
+services:
+  app:
+    build:
+      context: .. # Build context points to the parent directory
+      dockerfile: docker/Dockerfile
+      args:
+        ENV: prod # Use production requirements
+    ports:
+      - "8000:8000" # Expose FastAPI app
+    env_file:
+      - ./env/.env # Adjust path to match directory structure
+    environment:
+      - UVICORN_ENV=PRODUCTION
+      - LOG_LEVEL=INFO
+      - LOG_PATH=logs/app.log
+    depends_on:
+      - redis
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    restart: always
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    restart: always
